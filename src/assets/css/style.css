@@ -1,0 +1,15 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    width: 100%;
+    height: calc(100vh - 67px);
+    margin-top: 67px;
+    overflow: auto;
+}
+
