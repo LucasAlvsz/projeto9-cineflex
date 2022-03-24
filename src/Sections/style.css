@@ -1,4 +1,4 @@
-section .sections{
+section .list{
     display: flex;
     flex-direction: column;
     font-weight: 400;
@@ -30,4 +30,9 @@ section .sections{
     justify-content: center;
     border-radius: 3px;
     margin-right: 8px;
+}
+
+.margin{
+    width: 100%;
+    margin-top: 227px;
 }
