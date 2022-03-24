@@ -1,0 +1,33 @@
+section .sections{
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    padding-left: 24px;
+}
+
+.title-section {
+    font-size: 20px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    color: #293845;
+}
+.show-times{
+    margin-top: 22px;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    color: #FFFFFF;
+    margin-bottom: 23px;
+}
+.show-time {
+    background-color: #E8833A;
+    width: 83px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    margin-right: 8px;
+}

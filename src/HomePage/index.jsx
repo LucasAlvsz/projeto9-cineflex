@@ -19,11 +19,11 @@ export default function HomePage() {
     return (
         <section>
             <h1 className="title">Selecione o filme</h1>
-            {moviesList.map(movie => {
+            {moviesList.map(({ id, posterURL, title }) => {
                 return (
-                    <div className="movie" key={movie.id}>
-                        <Link to={`/sessoes/${movie.id}`}>
-                            <img src={movie.posterURL} alt={movie.title} />
+                    <div className="movie" key={id}>
+                        <Link to={`/filme/${id}`}>
+                            <img src={posterURL} alt={title} />
                         </Link>
                     </div>
                 )

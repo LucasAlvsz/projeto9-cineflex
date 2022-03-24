@@ -5,6 +5,7 @@ import "../assets/css/style.css"
 
 import Header from "../Header"
 import HomePage from "../HomePage"
+import Sections from "../Sections"
 
 export default function App() {
     return (
@@ -13,7 +14,8 @@ export default function App() {
             <main>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/sessoes/:idFilme" element={<HomePage />} />
+                    <Route path="/filme/:idFilme" element={<Sections />} />
+                    {/* <Route path="/sessoes/:idFilme" element={<Sections />} /> */}
                 </Routes>
             </main>
         </BrowserRouter>
