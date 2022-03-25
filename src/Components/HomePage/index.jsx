@@ -22,7 +22,7 @@ export default function HomePage() {
             {moviesList.map(({ id, posterURL, title }) => {
                 return (
                     <div className="movie" key={id}>
-                        <Link to={`/filme/${id}`}>
+                        <Link to={`/sections/${id}`}>
                             <img src={posterURL} alt={title} />
                         </Link>
                     </div>

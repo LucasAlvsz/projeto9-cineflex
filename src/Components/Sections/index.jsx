@@ -7,10 +7,10 @@ import "./style.css"
 import Footer from '../Footer'
 
 export default function Sections() {
-    const { idFilme } = useParams()
+    const { idMovie } = useParams()
     const [moviesSections, setMovieSections] = useState("")
     useEffect(() => {
-        axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idFilme}/showtimes`)
+        axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idMovie}/showtimes`)
             .then(({ data }) => setMovieSections(data))
             .catch(({ response }) => console.log(response))
     }, [])
@@ -26,7 +26,7 @@ export default function Sections() {
                             <div className="show-times">
                                 {showtimes.map(({ id, name }) => {
                                     return (
-                                        <Link to={`/sessao/${id}`} key={id}>
+                                        <Link to={`/seats/${id}`} key={id}>
                                             <div className="show-time">{name}</div>
                                         </Link>
                                     )
