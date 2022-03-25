@@ -26,7 +26,7 @@ export default function Sections() {
                             <div className="show-times">
                                 {showtimes.map(({ id, name }) => {
                                     return (
-                                        <Link to={`/seats/${id}`} key={id}>
+                                        <Link to={`/seats/${id}`} key={id} className="link">
                                             <div className="show-time">{name}</div>
                                         </Link>
                                     )

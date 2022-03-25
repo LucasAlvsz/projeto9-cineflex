@@ -5,7 +5,7 @@ import Footer from '../Footer'
 
 import "./style.css"
 
-export default function Seats() {
+export default function Seats({ reservationDataUpdate }) {
     const { idSection } = useParams()
     const [seats, setSeats] = useState("")
     const [seatsIdList, setSeatsIdList] = useState([])
@@ -17,6 +17,16 @@ export default function Seats() {
             .catch(response => console.log(response.response))
     }, [])
     const { movie, day } = seats
+    function userDataValidation(userName, userCpf, seatsIdList) {
+        try {
+            if (userName !== "" && userName !== "" && userName !== []) {
+                console.log("entrei");
+                return { ids: seatsIdList, name: userName, cpf: userCpf, movieTitle: movie.title, day: day.weekday, time: seats.name }
+            }
+            return ""
+        }
+        catch { }
+    }
     return (
         seats !== ""
             ? <section className="seats">
@@ -26,16 +36,17 @@ export default function Seats() {
                     {seats.seats.map(({ id, name, isAvailable }) => {
                         return (
                             isAvailable
-                                ? <div className={`seat ${seatsIdList.includes(name) ? "selected" : "available"}`} key={id}
+                                ? <div
+                                    className={`seat ${seatsIdList.includes(id) ? "selected" : "available"}`}
+                                    key={id}
                                     onClick={() => {
-                                        console.log(seatsIdList)
-                                        seatsIdList.includes(name)
+                                        seatsIdList.includes(id)
                                             ? setSeatsIdList(() => {
                                                 let seatsIdListLog = seatsIdList
-                                                seatsIdListLog.splice(seatsIdList.indexOf(name), 1)
-                                                return seatsIdListLog
+                                                seatsIdListLog.splice(seatsIdList.indexOf(id), 1)
+                                                return [...seatsIdListLog]
                                             })
-                                            : setSeatsIdList([...seatsIdList, name])
+                                            : setSeatsIdList([...seatsIdList, id])
                                     }}>
                                     {name}
                                 </div>
@@ -72,11 +83,13 @@ export default function Seats() {
                             onChange={(e) => setUserCpf(e.target.value)}
                         />
                     </span>
-                    <Link to={`/sucess`}>
-                    <button className="reserve"
-                        onClick={() => setUserCpf()}>
-                        Reservar assento(s)
-                    </button>
+                    <Link to={"/sucess"} className="link">
+                        <button className="reserve"
+                            onClick={() => { 
+                                console.log(userDataValidation(userName, userCpf, seatsIdList));
+                                reservationDataUpdate(userDataValidation(userName, userCpf, seatsIdList)) }}>
+                            Reservar assento(s)
+                        </button>
                     </Link>
                 </section>
                 <span className="margin"></span>

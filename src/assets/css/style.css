@@ -27,3 +27,7 @@ main {
     color: #293845;
 }
 
+.link{
+    text-decoration: none;
+    color: inherit;
+}
