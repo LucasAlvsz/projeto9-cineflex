@@ -1,3 +1,7 @@
+Nono projeto - Driven
+
+Deploy: https://projeto9-cineflex-puce.vercel.app
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
