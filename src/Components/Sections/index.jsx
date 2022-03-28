@@ -8,7 +8,7 @@ import Footer from '../Footer'
 
 export default function Sections() {
     const { idMovie } = useParams()
-    const [moviesSections, setMovieSections] = useState("")
+    const [moviesSections, setMovieSections] = useState([])
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${idMovie}/showtimes`)
             .then(({ data }) => setMovieSections(data))
@@ -16,7 +16,7 @@ export default function Sections() {
     }, [])
     const { title, posterURL } = moviesSections
     return (
-        moviesSections != ""
+        moviesSections.length !== 0
             ? <section>
                 <h1 className="title">Selecione o horário</h1>
                 {moviesSections.days.map(({ id, weekday, date, showtimes }) => {
@@ -44,6 +44,11 @@ export default function Sections() {
                 />
             </section>
             :
-            <p>carregando</p>
+            <>
+                <h1 className="title">Selecione o horário</h1>
+                <section className="s-loading">
+                    <div className="loading"></div>
+                </section >
+            </>
     )
 }

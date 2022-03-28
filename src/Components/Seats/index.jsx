@@ -8,7 +8,7 @@ import "./style.css"
 
 export default function Seats() {
     const { idSection } = useParams()
-    const [seats, setSeats] = useState("")
+    const [seats, setSeats] = useState([])
     const [seatsIdList, setSeatsIdList] = useState([])
     const [userData, setUserData] = useState({ userName: "", cpf: "" })
     useEffect(() => {
@@ -36,7 +36,6 @@ export default function Seats() {
             }
             axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", reservationData)
                 .then(() => {
-                    console.log("deu bom")
                     let seatsNumbersList = []
                     seats.seats.map(({ id, name }) => {
                         if (seatsIdList.includes(id))
@@ -55,9 +54,8 @@ export default function Seats() {
         return false
     }
     return (
-        seats !== ""
+        seats.length !== 0
             ? <section className="seats">
-
                 <h1 className="title">Selecione o(s) assento(s)</h1>
                 <div className="seats-container">
                     {seats.seats.map(({ id, name, isAvailable }) => {
@@ -139,6 +137,12 @@ export default function Seats() {
                     sectionTime={seats.name}
                 />
             </section>
-            : <p>Carregando</p>
+            : <>
+                <h1 className="title">Selecione o(s) assento(s)</h1>
+                <section className="s-loading">
+                    <div className="loading"></div>
+                </section >
+            </>
+
     )
 }

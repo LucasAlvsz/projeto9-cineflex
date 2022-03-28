@@ -4,7 +4,6 @@ import "./style.css"
 
 export default function Success() {
     const location = useLocation()
-    console.log(location.state);
     const {
         userData: { userName, cpf },
         seats: {
@@ -15,7 +14,6 @@ export default function Success() {
         seatsNumbersList,
     } = location.state
 
-    console.log(seatsNumbersList);
     return (
         <section className="success">
             <div className="infos-container">

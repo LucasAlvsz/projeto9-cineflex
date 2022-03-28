@@ -27,7 +27,32 @@ main {
     color: #293845;
 }
 
-.link{
+.link {
     text-decoration: none;
     color: inherit;
+}
+
+
+.s-loading{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading {
+    width: 70px;
+    height: 70px;
+    border: 6px solid #C3CFD9;
+    border-radius: 50%;
+    border-top-color: #E8833A;
+    animation: rotating 1s infinite;
+    
+}
+
+@keyframes rotating {
+    to {
+        transform: rotate(1turn);
+    }
 }
