@@ -22,7 +22,8 @@ export default function Seats() {
     function userNameValidation(userName) {
         return userName
             .replace(/[0-9]/g, '')
-            .replace(/[^a-zA-Z\u00C0-\u00FF]/g, '')
+            .replace(/[^a-zA-Z\u00C0-\u00FF/\s+]/g, '')
+            .replace(/\s+/g, ' ')
     }
 
     function maskCpf(cpf) {
