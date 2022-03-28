@@ -6,9 +6,7 @@ export default function Header() {
     let { pathname } = useLocation()
     return (
         <header>
-            {pathname !== "/"
-                ? <GoBack />
-                : ""}
+            {pathname !== "/" ? <GoBack /> : ""}
             CINEFLEX
         </header>
     )

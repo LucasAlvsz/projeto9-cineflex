@@ -71,19 +71,13 @@ export default function Seats() {
                                             })
                                             : setSeatsIdList([...seatsIdList, id])
                                     }}>
-                                    {name < 10
-                                        ? "0" + name
-                                        : name
-                                    }
+                                    {name < 10 ? "0" + name : name}
                                 </div>
                                 : <div
                                     className="seat unavailable"
                                     key={id}
                                     onClick={() => alert("Assento Indisponível!")}>
-                                    {name < 10
-                                        ? "0" + name
-                                        : name
-                                    }
+                                    {name < 10 ? "0" + name : name}
                                 </div>
                         )
                     })}
@@ -102,7 +96,6 @@ export default function Seats() {
                         <p>Indisponível</p>
                     </span>
                 </div>
-
                 <section className="user-data">
                     <form onSubmit={userDataValidation}>
                         <span>
@@ -123,15 +116,12 @@ export default function Seats() {
                                 }}
                             />
                         </span>
-
-                        <button className="reserve" type="submit"
-                        >
+                        <button className="reserve" type="submit">
                             Reservar assento(s)
                         </button>
                     </form>
                 </section>
                 <span className="margin"></span>
-
                 <Footer
                     title={movie.title}
                     posterURL={movie.posterURL}
