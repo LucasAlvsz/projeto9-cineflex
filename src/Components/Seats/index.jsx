@@ -11,11 +11,20 @@ export default function Seats() {
     const [seats, setSeats] = useState([])
     const [seatsIdList, setSeatsIdList] = useState([])
     const [userData, setUserData] = useState({ userName: "", cpf: "" })
+    const { movie, day } = seats
+    let navigate = useNavigate()
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSection}/seats`)
             .then(({ data }) => setSeats(data))
             .catch(response => console.log(response.response))
     }, [])
+
+    function userNameValidation(userName) {
+        return userName
+            .replace(/[0-9]/g, '')
+            .replace(/[^a-zA-Z\u00C0-\u00FF]/g, '')
+    }
+
     function maskCpf(cpf) {
         return cpf
             .replace(/\D/g, '')
@@ -24,34 +33,24 @@ export default function Seats() {
             .replace(/(\d{3})(\d{1,2})/, '$1-$2')
             .replace(/(-\d{2})\d+?$/, '$1')
     }
-    const { movie, day } = seats
-    let navigate = useNavigate()
+
     function userDataValidation(e) {
         e.preventDefault()
-        if (seatsIdList !== []) {
+        if (seatsIdList !== [] && userData.cpf.length === 14) {
             const reservationData = {
                 ids: seatsIdList,
                 name: userData.userName,
                 cpf: userData.cpf
             }
-            axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", reservationData)
+            axios
+                .post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", reservationData)
                 .then(() => {
                     let seatsNumbersList = []
-                    seats.seats.map(({ id, name }) => {
-                        if (seatsIdList.includes(id))
-                            seatsNumbersList.push(name)
-                    })
+                    seats.seats.map(({ id, name }) => seatsIdList.includes(id) ? seatsNumbersList.push(name) : "")
                     navigate("../success", { state: { userData, seats, seatsNumbersList } })
                 })
-                .catch(err => {
-                    console.log(err)
-                    return false
-                })
-
-
-
+                .catch(err => console.log(err))
         }
-        return false
     }
     return (
         seats.length !== 0
@@ -109,7 +108,10 @@ export default function Seats() {
                         <span>
                             <p>Nome do Comprador</p>
                             <input type="text" required placeholder="Digite seu nome..."
-                                onChange={(e) => setUserData({ ...userData, userName: e.target.value })}
+                                onChange={(e) => {
+                                    e.target.value = userNameValidation(e.target.value)
+                                    setUserData({ ...userData, userName: e.target.value })
+                                }}
                             />
                         </span>
                         <span>
