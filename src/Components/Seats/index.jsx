@@ -50,7 +50,7 @@ export default function Seats() {
                 })
 
 
-            // return { ids: seatsIdList, name: userName, cpf: userCpf, movieTitle: movie.title, day: day.weekday, time: seats.name }
+
         }
         return false
     }

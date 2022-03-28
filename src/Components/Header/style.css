@@ -13,3 +13,25 @@ header {
     text-align: center;
     color: #E8833A;
 }
+
+header svg {
+    width: 37.5px;
+    height: 37.5px;
+    position: absolute;
+    left: 10px;
+    filter: drop-shadow(2px 2px 2px #d86f0d65);
+}
+
+header svg:hover{
+    cursor: pointer;
+}
+
+header path:nth-child(1) {
+    fill: #E8833A;
+    stroke: #e8833a34;
+}
+
+header path:nth-child(2) {
+    fill: #E8833A;
+    stroke: #fff;
+}
