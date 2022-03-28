@@ -1,31 +1,58 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+
 import Footer from '../Footer'
 
 import "./style.css"
 
-export default function Seats({ reservationDataUpdate }) {
+export default function Seats() {
     const { idSection } = useParams()
     const [seats, setSeats] = useState("")
     const [seatsIdList, setSeatsIdList] = useState([])
-    const [userName, setUserName] = useState("")
-    const [userCpf, setUserCpf] = useState("")
+    const [userData, setUserData] = useState({ userName: "", cpf: "" })
     useEffect(() => {
         axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSection}/seats`)
             .then(({ data }) => setSeats(data))
             .catch(response => console.log(response.response))
     }, [])
+    function maskCpf(cpf) {
+        return cpf
+            .replace(/\D/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+            .replace(/(-\d{2})\d+?$/, '$1')
+    }
     const { movie, day } = seats
-    function userDataValidation(userName, userCpf, seatsIdList) {
-        try {
-            if (userName !== "" && userName !== "" && userName !== []) {
-                console.log("entrei");
-                return { ids: seatsIdList, name: userName, cpf: userCpf, movieTitle: movie.title, day: day.weekday, time: seats.name }
+    let navigate = useNavigate()
+    function userDataValidation(e) {
+        e.preventDefault()
+        if (seatsIdList !== []) {
+            const reservationData = {
+                ids: seatsIdList,
+                name: userData.userName,
+                cpf: userData.cpf
             }
-            return ""
+            axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", reservationData)
+                .then(() => {
+                    console.log("deu bom")
+                    let seatsNumbersList = []
+                    seats.seats.map(({ id, name }) => {
+                        if (seatsIdList.includes(id))
+                            seatsNumbersList.push(name)
+                    })
+                    navigate("../success", { state: { userData, seats, seatsNumbersList } })
+                })
+                .catch(err => {
+                    console.log(err)
+                    return false
+                })
+
+
+            // return { ids: seatsIdList, name: userName, cpf: userCpf, movieTitle: movie.title, day: day.weekday, time: seats.name }
         }
-        catch { }
+        return false
     }
     return (
         seats !== ""
@@ -42,18 +69,27 @@ export default function Seats({ reservationDataUpdate }) {
                                     onClick={() => {
                                         seatsIdList.includes(id)
                                             ? setSeatsIdList(() => {
-                                                let seatsIdListLog = seatsIdList
-                                                seatsIdListLog.splice(seatsIdList.indexOf(id), 1)
-                                                return [...seatsIdListLog]
+                                                let seatsIdListLog = seatsIdList.filter(idlog => idlog !== id)
+                                                return seatsIdListLog
                                             })
                                             : setSeatsIdList([...seatsIdList, id])
                                     }}>
-                                    {name}
+                                    {name < 10
+                                        ? "0" + name
+                                        : name
+                                    }
                                 </div>
-                                : <div className="seat unavailable" key={id}>{name}</div>
+                                : <div
+                                    className="seat unavailable"
+                                    key={id}
+                                    onClick={() => alert("Assento Indisponível!")}>
+                                    {name < 10
+                                        ? "0" + name
+                                        : name
+                                    }
+                                </div>
                         )
                     })}
-                    {console.log(seatsIdList)}
                 </div>
                 <div className="status-caption">
                     <span>
@@ -71,26 +107,28 @@ export default function Seats({ reservationDataUpdate }) {
                 </div>
 
                 <section className="user-data">
-                    <span>
-                        <p>Nome do Comprador</p>
-                        <input type="text" placeholder="Digite seu nome..."
-                            onChange={(e) => setUserName(e.target.value)}
-                        />
-                    </span>
-                    <span>
-                        <p>CPF do comprador</p>
-                        <input type="number" placeholder="Digite seu CPF..."
-                            onChange={(e) => setUserCpf(e.target.value)}
-                        />
-                    </span>
-                    <Link to={"/sucess"} className="link">
-                        <button className="reserve"
-                            onClick={() => { 
-                                console.log(userDataValidation(userName, userCpf, seatsIdList));
-                                reservationDataUpdate(userDataValidation(userName, userCpf, seatsIdList)) }}>
+                    <form onSubmit={userDataValidation}>
+                        <span>
+                            <p>Nome do Comprador</p>
+                            <input type="text" required placeholder="Digite seu nome..."
+                                onChange={(e) => setUserData({ ...userData, userName: e.target.value })}
+                            />
+                        </span>
+                        <span>
+                            <p>CPF do comprador</p>
+                            <input type="text" required placeholder="Digite seu CPF..." maxLength={14}
+                                onChange={(e) => {
+                                    e.target.value = maskCpf(e.target.value)
+                                    setUserData({ ...userData, cpf: e.target.value })
+                                }}
+                            />
+                        </span>
+
+                        <button className="reserve" type="submit"
+                        >
                             Reservar assento(s)
                         </button>
-                    </Link>
+                    </form>
                 </section>
                 <span className="margin"></span>
 

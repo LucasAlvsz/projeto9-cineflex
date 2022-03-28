@@ -8,11 +8,9 @@ import Header from "../Header"
 import HomePage from "../HomePage"
 import Sections from "../Sections"
 import Seats from "../Seats"
-import Sucess from "../Sucess"
+import Success from "../Success"
 
 export default function App() {
-    const [reservationData, setReservationData] = useState("")
-    console.log(reservationData);
     return (
         <BrowserRouter>
             <Header />
@@ -20,10 +18,8 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sections/:idMovie" element={<Sections />} />
-                    <Route path="/seats/:idSection"
-                        element={
-                            <Seats reservationDataUpdate={(userData) => setReservationData(userData)} />} />
-                    <Route path="/sucess" element={<Sucess reservationData={reservationData} />} />
+                    <Route path="/seats/:idSection" element={<Seats />} />
+                    <Route path="/success" element={<Success />} />
                 </Routes>
             </main>
         </BrowserRouter>
